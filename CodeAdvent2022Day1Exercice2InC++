@@ -1,0 +1,45 @@
+//Answer to the second exercise of the first day of the 2022 code advent challenge in C++
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+#define MAX(x,y) (((x) > (y)) ? x : y)  //create MAX
+
+using namespace std;
+
+int main ()
+{
+  string line;
+  ifstream myfile ("InputFile.txt");
+  int answer = 0;
+  int elveCalories = 0;
+  vector<int> elves;
+
+  //store the calories of each elves into a vector
+  if (myfile.is_open())
+  {
+    while(getline(myfile, line))
+    {
+        if(line == "") //empty line ==> new elve
+        {
+            elves.push_back(elveCalories);
+            elveCalories = 0;
+        }
+        else
+        {
+            elveCalories += atoi(line.c_str());
+        }
+    }
+    myfile.close();
+  }
+  else cout << "Unable to open file";
+
+  //Add the 3 highest values of calories
+  sort(elves.begin(), elves.end(), greater<>());    //sort descending order
+  answer = elves[0] + elves[1] + elves[2];          //sum top 3 calories' count
+  cout<<answer<<endl;
+
+  return 0;
+}
